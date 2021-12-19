@@ -1,0 +1,39 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: docker-rocket
+spec:
+  type: LoadBalancer
+  selector:
+    app: docker-rocket
+  ports:
+  - protocol: TCP
+    port: 80
+    name: http
+    targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-rocket
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: docker-rocket 
+  template:
+    metadata:
+      labels:
+        app: docker-rocket
+    spec:
+      containers:
+      - name: "docker-rocket"
+        image: rocket.chat
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 3000
+        env:
+        - name: "MONGO_OPLOG_URL"
+          value: "mongodb://database:27017/local"
+        - name: "MONGO_URL"
+          value: "mongodb://database:27017/chat-db"

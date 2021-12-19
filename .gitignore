@@ -1,0 +1,11 @@
+.settings
+target
+.classpath
+.project
+.vscode
+.terraform
+.terraform.lock.hcl
+*.tfstate*
+terraform.tfstate.backup
+terraform.tfvars
+connect.yml
